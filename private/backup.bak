@@ -1,0 +1,45 @@
+<div class="well"style="width:30%;float:right">
+{{for row in rows:}}
+<div style="margin-bottom:4%">
+        <h1><a style="text-decoration:none;color:teal;font-size:40px" href="{{=URL('view_post',args=row.id)}}">{{=row.title}} </a></h1> 
+    <h3>
+        {{if len(row.body) >=200:}}
+        <p style="font-size:20px">{{=(row.body[0:200])}}...</p><br/><a style="text-decoration:none" href="{{=URL('view_post',args=row.id)}}"><p style="background-color:yellow;float:right;color:black,width:auto">Read More</p></a>
+        {{else:}}
+        {{=(row.body)}}
+        {{pass}}
+    </h3>
+</div>
+{{pass}}
+</div>
+
+
+
+<div style="width:80%;float:left;margin-bottom:2%">
+    
+    {{for row in rows:}}
+    <div style="margin-bottom:2%;">
+            <h1><a style="text-decoration:none;color:teal;font-size:40px" href="{{=URL('view_post',args=row.id)}}">{{=row.title}} </a></h1> 
+    </div>
+    <div class='row'>
+        <div class="col-md-4">
+            <img style="height:250px"src="{{=URL('default','download',args=row.images)}}"> </img><br/>
+        </div>
+        <div class="col-md-6">
+            {{if len(row.body) >= 450:}}
+            <p style="font-size:20px">{{=(row.body[0:450])}}...</p><br/><a style="text-decoration:none" href="{{=URL('view_post',args=row.id)}}"><p class="btn btn-info">Read More</p></a>
+            {{else:}}
+            {{=(row.body)}}
+            {{pass}}
+        </div>
+    </div>
+    {{pass}}
+
+    {{if page>1:}}
+    <a class="btn btn-primary"href="{{=URL(vars={'page':int(request.vars.page)-1})}}">Previous</a>
+    {{pass}}
+
+    {{if len(rows)>=5:}}
+    <a class="btn btn-primary" href="{{=URL(vars={'page':int(request.vars.page)+1})}}">Next</a>
+    {{pass}}
+</div>
