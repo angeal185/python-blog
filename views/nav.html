@@ -1,0 +1,38 @@
+<div class="flash alert alert-dismissable">{{=response.flash or ''}}</div>
+<!-- Nav -->
+
+<div id="header" class="sticky clearfix">
+	<!-- TOP NAV -->
+	<header id="topNav">
+		<div class="container">
+			<!-- Mobile Menu Button -->
+			<button class="btn btn-mobile" data-toggle="collapse" data-target=".nav-main-collapse">
+				<i class="fa fa-bars"></i>
+			</button>
+			
+			<!-- Logo -->
+			<a class="logo pull-left" href="index.html">
+				<img src="{{=response.logo or ''}}" alt="">
+			</a>
+			<div class="navbar-collapse pull-right nav-main-collapse collapse">
+				<nav class="nav-main">
+					<ul id="topMain" class="nav nav-pills nav-main">
+						<li><a href="#">HOME</a></li>
+                        <li class="dropdown"><!-- HOME -->
+                            <a class="dropdown-toggle" href="#">
+                                settings
+                            </a>
+                            <ul class="dropdown-menu">
+                                 {{='auth' in globals() and auth.navbar('Welcome',mode='dropdown') or ''}}
+                            </ul>
+                           <!-- {{if response.menu:}}
+          {{=MENU(response.menu, _class='nav navbar-nav',li_class='dropdown',ul_class='dropdown-menu')}}
+          {{pass}}-->
+                       </li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</header>
+	<!-- /Top Nav -->
+</div>

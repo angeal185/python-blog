@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{=T.accepted_language or 'en'}}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge{{=not request.is_local and ',chrome=1' or ''}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{=response.title or request.application}}</title>
+    <meta name="application-name" content="{{=request.application}}">
+    <link href="{{=URL('static','css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{=URL('static','css/main.css')}}" rel="stylesheet" type="text/css" />
+	<link href="{{=URL('static','css/layout.css')}}" rel="stylesheet" type="text/css" />
+
+{{block head}}
+{{include 'web2py_ajax.html'}}
+{{end}}
+</head>
+<body class="enable-animation">
+{{include 'slide-top.html'}}
+<div id="wrapper">
+{{block header}}
+    
+{{include 'nav.html'}}
+{{end}}
+
+{{block center}}
+{{include}}
+{{end center}}
+
+{{block footer}}
+{{include 'footer.html'}}
+</div>
+{{include 'bottom.html'}}
+{{end footer}}
+<script type="text/javascript">var plugin_path = 'js';</script>
+
+<script src="{{=URL('static','js/web2py-bootstrap3.js')}}"></script>
+<script src="{{=URL('static','js/scripts.js')}}"></script>
+{{block page_js}}
+{{end page_js}}
+
+</body>
+</html>

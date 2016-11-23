@@ -1,0 +1,99 @@
+{{extend 'layout.html'}}
+
+
+<!--
+	PAGE HEADER 
+	
+CLASSES:
+		.page-header-xs	 = 20px margins
+		.page-header-md	 = 50px margins
+		.page-header-lg	 = 80px margins
+                .page-header-xlg = 130px margins
+		.dark		= dark page header
+		.light		= light page header
+-->
+
+
+<section class="page-header">
+	<div class="container">
+
+		<h1>Blog</h1>
+		<span class="font-lato size-18 weight-300">Sub-headding</span>
+
+		<!-- breadcrumbs -->
+		<ol class="breadcrumb">
+			<li><a class="active" href="#">Blog</a></li>
+		</ol><!-- /breadcrumbs -->
+
+	</div>
+</section>
+
+
+<!-- /PAGE HEADER -->
+<div class="container" >
+<div class="row"> 
+{{include 'left-sidebar.html'}}
+{{for row in rows:}}
+<!-- POST ITEM -->
+<div class="col-md-9 col-sm-9">
+<div class="blog-post-item">
+	<!-- IMAGE -->
+	<figure class="margin-bottom-20">
+		<img class="img-responsive" src="{{=URL('static','images/demo.jpg')}}" alt="">
+	</figure>
+
+	<h2><a href="{{=URL('view_post',args=row.id)}}">{{=row.title}}</a></h2>
+
+	<ul class="blog-post-info list-inline">
+		<li>
+			<a href="#">
+				<i class="fa fa-clock-o"></i> 
+				<span class="font-lato">{{=row.created_on}}</span>
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="fa fa-comment-o"></i> 
+				<span class="font-lato">28 Comments</span>
+			</a>
+		</li>
+		<li>
+			<i class="fa fa-folder-open-o"></i> 
+
+			<a class="category" href="#">
+				<span class="font-lato">Design</span>
+			</a>
+			<a class="category" href="#">
+				<span class="font-lato">Photography</span>
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="fa fa-user"></i> 
+				<span class="font-lato">John Doe</span>
+			</a>
+		</li>
+	</ul><p>
+	{{if len(row.body) >= 150:}}
+	{{=row.body[0:150]}}
+	{{else:}}
+	{{=(row.body)}}
+    {{pass}}</p>
+	<a href="{{=URL('view_post',args=row.id)}}" class="btn btn-reveal btn-default">
+		<i class="fa fa-plus"></i>
+		<span>Read More</span>
+	</a>
+</div></div>
+<!-- /POST ITEM -->
+
+
+{{pass}}</div></div>
+    
+ <!-- pagination -->   
+<div style="padding-bottom:10px"class="container text-center">
+  <ul class="pager">
+	<li class="previous">{{if page>1:}}<a class="radius-0" href="{{=URL(vars={'page':int(request.vars.page)-1})}}">Previous</a></li>{{pass}}
+	<li class="next">{{if len(rows)>=5:}}<a class="radius-0" href="{{=URL(vars={'page':int(request.vars.page)+1})}}">Next</a></li>{{pass}}
+  </ul> 
+</div>
+<!-- /pagination -->

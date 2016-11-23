@@ -1,0 +1,61 @@
+{{extend 'layout.html'}}
+<body>
+<div>
+
+</div>
+
+<article>
+<div class="container">
+    <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-10 col-sm-10 col-sm-offset-1">
+           <h1 style="color:teal;font-size:50px">
+             {{=post.title}}
+           </h1>
+          {{if post.images:}}
+           <img  class="img-responsive" src="{{=URL('default','download',args=post.images)}}"> </img>
+           {{else:}}
+           <h5>
+              No Image Availaible
+           </h5>
+          {{pass}}
+    
+         <h3>{{=PRE(post.body)}}</h3>
+         <strong>Created On {{=post.created_on}}</strong>
+    </div>
+</div>
+</article>
+
+<div class="container">
+    <div class="col-lg-8 col-lg-offset-1">
+        <h2>
+             Comments
+        </h2>
+        {{for comment in comments:}}
+     <div class="well commentsection">
+            <p>
+                
+                    {{=comment.body}} on {{=prettydate(comment.created_on)}} by {{=comment.created_by.first_name}} <br/> 
+                    {{if comment.created_by == auth.user_id:}}
+                    <i class="glyphicon glyphicon-remove">{{=A('Delete',callback=URL('delete_comment',vars={'id':comment.id}))}}</i>
+                    {{pass}}
+            </p>
+      </div>
+        {{pass}}
+       <div>
+           {{if auth.user:}}
+        {{=form}}
+           {{else:}}
+           <a href="{{=URL('default','user')}}">Login</a> to comment
+           {{pass}}
+       </div>
+</div>
+</div>
+</body>
+<style>
+pre{
+    white-space:pre-wrap;
+    font-size:24px;
+    overflow:auto;
+    background:none;
+    font-family:Arial;
+}
+</style>
