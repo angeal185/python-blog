@@ -1,46 +1,8 @@
-/** ********************************************** **
-	TABLE CONTENTS
-	-------------------------------
 
-
-	INLINE SCRIPTS
-	-------------------------------
-		COUNT TO
-			https://github.com/mhuggins/jquery-countTo
-
-		BROWSER DETECT
-
-		Appear
-			https://github.com/bas2k/jquery.appear/
-			
-		Parallax
-			http://www.ianlunn.co.uk/plugins/jquery-parallax/
-
-		jQuery Easing v1.3
-			http://gsgd.co.uk/sandbox/jquery/easing/
-
-		WOW - v1.0.3
-			http://mynameismatthieu.com/WOW/
-
-		Modernizr 3.3.1
-			http://modernizr.com/download/#-csstransforms3d-csstransitions-video-touch-shiv-cssclasses-addtest-prefixed-teststyles-testprop-testallprops-hasevent-prefixes-domprefixes-load
-*************************************************** **/
 	'use strict';
     
     window.width = jQuery(window).width();
 
-	/* Init */
-	jQuery(window).ready(function () {
-		jQuery.browserDetect();
-
-		// Load Bootstrap JS
-		loadScript(plugin_path + 'bootstrap/js/bootstrap.min.js', function() {
-
-			Init(false);
-
-		});
-
-	});
 
 
 /** Init
@@ -179,32 +141,7 @@
 		});
 	});
  **************************************************************** **/
-	var _arr 	= {};
-	function loadScript(scriptName, callback) {
 
-		if (!_arr[scriptName]) {
-			_arr[scriptName] = true;
-
-			var body 		= document.getElementsByTagName('body')[0];
-			var script 		= document.createElement('script');
-			script.type 	= 'text/javascript';
-			script.src 		= scriptName;
-
-			// then bind the event to the callback function
-			// there are several events for cross browser compatibility
-			// script.onreadystatechange = callback;
-			script.onload = callback;
-
-			// fire the loading
-			body.appendChild(script);
-
-		} else if (callback) {
-
-			callback();
-
-		}
-
-	};
 
 
  
@@ -334,36 +271,7 @@
 		});
 
 
-		// Quick Cart
-		jQuery('li.quick-cart>a').on("click", function (e) {
-			e.preventDefault();
-			
-			var _quick_cart_box = jQuery('li.quick-cart div.quick-cart-box');
-
-			if(_quick_cart_box.is(":visible")) {
-				_quick_cart_box.fadeOut(300);
-			} else {
-				_quick_cart_box.fadeIn(300);
-
-				// close search if visible
-				if(jQuery('li.search .search-box').is(":visible")) {
-					jQuery('.search-box').fadeOut(300);
-				}
-			}
-		});
-
-		// close quick cart on body click
-		if(jQuery('li.quick-cart>a').size() != 0) {
-			jQuery('li.quick-cart').on('click', function(e){
-				e.stopPropagation();
-			});
-
-			jQuery('body').on('click', function() {
-				if (jQuery('li.quick-cart div.quick-cart-box').is(":visible")) {
-					jQuery('li.quick-cart div.quick-cart-box').fadeOut(300);
-				}
-			});
-		}
+		
 
 
 		// Page Menu [scrollTo]
@@ -483,17 +391,7 @@
 
 
 		// Slide Top
-		jQuery("#slidetop a.slidetop-toggle").on("click", function() {
-			jQuery("#slidetop .container").slideToggle(150, function() {
-
-				if(jQuery("#slidetop .container").is(":hidden")) {
-					jQuery("#slidetop").removeClass('active');
-				} else {
-					jQuery("#slidetop").addClass('active');
-				}
-
-			});
-		});
+		
 
 		// 'esc' key
 		jQuery(document).keyup(function(e) {
@@ -3435,161 +3333,6 @@
 
 
 
-	// scroll 
-	function wheel(e) {
-	  e.preventDefault();
-	}
-
-	function disable_scroll() {
-	  if (window.addEventListener) {
-		  window.addEventListener('DOMMouseScroll', wheel, false);
-	  }
-	  window.onmousewheel = document.onmousewheel = wheel;
-	}
-
-	function enable_scroll() {
-		if (window.removeEventListener) {
-			window.removeEventListener('DOMMouseScroll', wheel, false);
-		}
-		window.onmousewheel = document.onmousewheel = document.onkeydown = null;  
-	}
-
-	// overlay
-	function enable_overlay() {
-		jQuery("span.global-overlay").remove(); // remove first!
-		jQuery('body').append('<span class="global-overlay"></span>');
-	}
-	function disable_overlay() {
-		jQuery("span.global-overlay").remove();
-	}
-
-
-
-
-
-
-/** COUNT TO
-	https://github.com/mhuggins/jquery-countTo
- **************************************************************** **/
- (function ($) {
-	$.fn.countTo = function (options) {
-		options = options || {};
-
-		return jQuery(this).each(function () {
-			// set options for current element
-			var settings = jQuery.extend({}, $.fn.countTo.defaults, {
-				from:            jQuery(this).data('from'),
-				to:              jQuery(this).data('to'),
-				speed:           jQuery(this).data('speed'),
-				refreshInterval: jQuery(this).data('refresh-interval'),
-				decimals:        jQuery(this).data('decimals')
-			}, options);
-
-			// how many times to update the value, and how much to increment the value on each update
-			var loops = Math.ceil(settings.speed / settings.refreshInterval),
-				increment = (settings.to - settings.from) / loops;
-
-			// references & variables that will change with each update
-			var self = this,
-				$self = jQuery(this),
-				loopCount = 0,
-				value = settings.from,
-				data = $self.data('countTo') || {};
-
-			$self.data('countTo', data);
-
-			// if an existing interval can be found, clear it first
-			if (data.interval) {
-				clearInterval(data.interval);
-			}
-			data.interval = setInterval(updateTimer, settings.refreshInterval);
-
-			// __construct the element with the starting value
-			render(value);
-
-			function updateTimer() {
-				value += increment;
-				loopCount++;
-
-				render(value);
-
-				if (typeof(settings.onUpdate) == 'function') {
-					settings.onUpdate.call(self, value);
-				}
-
-				if (loopCount >= loops) {
-					// remove the interval
-					$self.removeData('countTo');
-					clearInterval(data.interval);
-					value = settings.to;
-
-					if (typeof(settings.onComplete) == 'function') {
-						settings.onComplete.call(self, value);
-					}
-				}
-			}
-
-			function render(value) {
-				var formattedValue = settings.formatter.call(self, value, settings);
-				$self.html(formattedValue);
-			}
-		});
-	};
-
-	$.fn.countTo.defaults = {
-		from: 0,               // the number the element should start at
-		to: 0,                 // the number the element should end at
-		speed: 1000,           // how long it should take to count between the target numbers
-		refreshInterval: 100,  // how often the element should be updated
-		decimals: 0,           // the number of decimal places to show
-		formatter: formatter,  // handler for formatting the value before rendering
-		onUpdate: null,        // callback method for every time the element is updated
-		onComplete: null       // callback method for when the element finishes updating
-	};
-
-	function formatter(value, settings) {
-		return value.toFixed(settings.decimals);
-	}
-}(jQuery));
-
-
-
-
-/** BROWSER DETECT
-	Add browser to html class
- **************************************************************** **/
-(function($) {
-	$.extend({
-
-		browserDetect: function() {
-
-			var u = navigator.userAgent,
-				ua = u.toLowerCase(),
-				is = function (t) {
-					return ua.indexOf(t) > -1;
-				},
-                c = null,
-				g = 'gecko',
-				w = 'webkit',
-				s = 'safari',
-				o = 'opera',
-				h = document.documentElement,
-				b = [(!(/opera|webtv/i.test(ua)) && /msie\s(\d)/.test(ua)) ? ('ie ie' + parseFloat(navigator.appVersion.split("MSIE")[1])) : is('firefox/2') ? g + ' ff2' : is('firefox/3.5') ? g + ' ff3 ff3_5' : is('firefox/3') ? g + ' ff3' : is('gecko/') ? g : is('opera') ? o + (/version\/(\d+)/.test(ua) ? ' ' + o + RegExp.jQuery1 : (/opera(\s|\/)(\d+)/.test(ua) ? ' ' + o + RegExp.jQuery2 : '')) : is('konqueror') ? 'konqueror' : is('chrome') ? w + ' chrome' : is('iron') ? w + ' iron' : is('applewebkit/') ? w + ' ' + s + (/version\/(\d+)/.test(ua) ? ' ' + s + RegExp.jQuery1 : '') : is('mozilla/') ? g : '', is('j2me') ? 'mobile' : is('iphone') ? 'iphone' : is('ipod') ? 'ipod' : is('mac') ? 'mac' : is('darwin') ? 'mac' : is('webtv') ? 'webtv' : is('win') ? 'win' : is('freebsd') ? 'freebsd' : (is('x11') || is('linux')) ? 'linux' : '', 'js'];
-
-			c = b.join(' ');
-			h.className += ' ' + c;
-
-			var isIE11 = !(window.ActiveXObject) && "ActiveXObject" in window;
-
-			if(isIE11) {
-				jQuery('html').removeClass('gecko').addClass('ie ie11');
-				return;
-			}
-
-		}
-
-	});
-})(jQuery);
 
  
 
