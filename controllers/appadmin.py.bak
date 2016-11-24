@@ -538,6 +538,7 @@ def table_template(table):
         else:
             return ' '
 
+    # This is horribe HTML but the only one graphiz understands
     rows = []
     cellpadding = 4
     color = "#000000"

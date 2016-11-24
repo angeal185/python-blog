@@ -14,7 +14,7 @@ def create_post():
     form= SQLFORM(db.blog).process()
     if form.accepted:
         redirect(URL('index'))
-        session.flash="Your Post is created"
+        session.flash="Your Post was created"
     return locals()
 
 def view_post():
