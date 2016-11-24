@@ -7,7 +7,7 @@
     <title>{{=response.title or request.application}}</title>
     <meta name="application-name" content="{{=request.application}}">
     <link href="{{=URL('static','css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{=URL('static','css/main.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{=URL('static','css/styles.css')}}" rel="stylesheet" type="text/css" />
 	<link href="{{=URL('static','css/layout.css')}}" rel="stylesheet" type="text/css" />
 
 {{block head}}
@@ -15,10 +15,10 @@
 {{end}}
 </head>
 <body class="enable-animation">
-
+{{include 'slide-top.html'}}
 <div id="wrapper">
 {{block header}}
-    {{include 'slide-top.html'}}
+
 {{include 'nav.html'}}
 {{end}}
 
@@ -29,14 +29,27 @@
 {{block footer}}
 {{include 'footer.html'}}
 </div>
+{{=response.toolbar()}}
 {{include 'bottom.html'}}
 {{end footer}}
 <script type="text/javascript">var plugin_path = 'js';</script>
-
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
 <script src="{{=URL('static','js/web2py-bootstrap3.js')}}"></script>
 <script src="{{=URL('static','js/scripts.js')}}"></script>
 {{block page_js}}
 {{end page_js}}
+<script>
+jQuery("#slidetop a.slidetop-toggle").on("click", function() {
+    jQuery("#slidetop .container").slideToggle(150, function() {
 
+        if(jQuery("#slidetop .container").is(":hidden")) {
+            jQuery("#slidetop").removeClass('active');
+        } else {
+            jQuery("#slidetop").addClass('active');
+        }
+
+    });
+});
+  </script>
 </body>
 </html>

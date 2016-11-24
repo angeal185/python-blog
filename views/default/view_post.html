@@ -1,61 +1,119 @@
 {{extend 'layout.html'}}
-<body>
-<div>
+<section class="page-header">
+	<div class="container">
+		<h1>Post</h1>
+		<span class="font-lato size-18 weight-300">Sub-headding</span>
+		<!-- breadcrumbs -->
+		<ol class="breadcrumb">
+			<li><a class="active" href="#">Blog</a></li>
+            <li><a href="#">Post</a></li>
+		</ol><!-- /breadcrumbs -->
+	</div>
+</section>
+<!-- /PAGE HEADER -->
+<div class="container" >
+<div class="row"> 
+{{include 'left-sidebar.html'}}
+<div class="col-md-9 col-sm-9">
+	<h1 class="blog-post-title">{{=post.title}}</h1>
+	<ul class="blog-post-info list-inline">
+		<li>
+			<a href="#">
+				<i class="fa fa-clock-o"></i> 
+				<span class="font-lato">{{=post.created_on}}</span>
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="fa fa-comment-o"></i>
+                <span class="font-lato">1 Comments</span>
+			</a>
+		</li>
+		<li>
+			<i class="fa fa-folder-open-o"></i>
+			<a class="category" href="#">
+				<span class="font-lato">Design</span>
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="fa fa-user"></i>
+				<span class="font-lato"></span>
+			</a>
+		</li>
+	</ul>
+	<!-- IMAGE -->
+	<figure class="margin-bottom-20">{{if post.images:}}
+		<img class="img-responsive" src="{{=URL('default','download',args=post.images)}}">
+		{{else:}}<h5>No Image Availaible</h5>{{pass}}
+	</figure>
+	<!-- /IMAGE -->
+	<!-- article content -->
+	<p class="dropcap">{{=(post.body)}}</p>
+	<!-- /article content -->
+	<div class="divider divider-dotted"><!-- divider --></div>
+	<!-- SHARE POST -->
+	<div class="clearfix margin-top-30">
+		<span class="pull-left margin-top-6 bold hidden-xs">
+			Share Post: 
+		</span>
+		<a href="#" class="social-icon social-icon-sm social-icon-transparent social-facebook pull-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Facebook">
+			<i class="icon-facebook"></i>
+			<i class="icon-facebook"></i>
+		</a>
+		<a href="#" class="social-icon social-icon-sm social-icon-transparent social-twitter pull-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter">
+			<i class="icon-twitter"></i>
+			<i class="icon-twitter"></i>
+		</a>
+		<a href="#" class="social-icon social-icon-sm social-icon-transparent social-gplus pull-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Google plus">
+			<i class="icon-gplus"></i>
+			<i class="icon-gplus"></i>
+		</a>
+		<a href="#" class="social-icon social-icon-sm social-icon-transparent social-linkedin pull-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Linkedin">
+			<i class="icon-linkedin"></i>
+			<i class="icon-linkedin"></i>
+		</a>
+		<a href="#" class="social-icon social-icon-sm social-icon-transparent social-pinterest pull-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Pinterest">
+			<i class="icon-pinterest"></i>
+			<i class="icon-pinterest"></i>
+		</a>
+		<a href="#" class="social-icon social-icon-sm social-icon-transparent social-call pull-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Email">
+			<i class="icon-email3"></i>
+			<i class="icon-email3"></i>
+		</a>
+	</div>
+	<!-- /SHARE POST -->
+	<div class="divider"><!-- divider --></div>
+	<!-- COMMENTS -->
+	<div id="comments" class="comments">
+		<h4 class="page-header margin-bottom-60 size-20">COMMENTS</h4>
+		<!-- comment item -->
+		{{for comment in comments:}}
+		<div class="comment-item">
+			<!-- user-avatar -->
+			<span class="user-avatar">
+				<img class="pull-left media-object" src="{{=URL('static','images/avatar2.jpg')}}" width="64" height="64" alt="">
+			</span>
+			<div class="media-body">
+				{{if comment.created_by == auth.user_id:}}
+				<a href="#commentForm" class="scrollTo pull-right comment-reply">{{=A('Delete',callback=URL('delete_comment',vars={'id':comment.id}))}}</a>
+				{{pass}}
+				<h4 class="media-heading bold">{{=comment.created_by.first_name}}</h4>
+				<small class="block">{{=prettydate(comment.created_on)}}</small>
+                <p>{{=comment.body}}</p></div>
+		</div>
+		{{pass}}
 
-</div>
-
-<article>
-<div class="container">
-    <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-10 col-sm-10 col-sm-offset-1">
-           <h1 style="color:teal;font-size:50px">
-             {{=post.title}}
-           </h1>
-          {{if post.images:}}
-           <img  class="img-responsive" src="{{=URL('default','download',args=post.images)}}"> </img>
-           {{else:}}
-           <h5>
-              No Image Availaible
-           </h5>
-          {{pass}}
-    
-         <h3>{{=PRE(post.body)}}</h3>
-         <strong>Created On {{=post.created_on}}</strong>
-    </div>
-</div>
-</article>
-
-<div class="container">
-    <div class="col-lg-8 col-lg-offset-1">
-        <h2>
-             Comments
-        </h2>
-        {{for comment in comments:}}
-     <div class="well commentsection">
-            <p>
-                
-                    {{=comment.body}} on {{=prettydate(comment.created_on)}} by {{=comment.created_by.first_name}} <br/> 
-                    {{if comment.created_by == auth.user_id:}}
-                    <i class="glyphicon glyphicon-remove">{{=A('Delete',callback=URL('delete_comment',vars={'id':comment.id}))}}</i>
-                    {{pass}}
-            </p>
-      </div>
-        {{pass}}
-       <div>
-           {{if auth.user:}}
+		<h4 class="page-header size-20 margin-bottom-60 margin-top-100">
+			LEAVE A <span>COMMENT</span>
+		</h4>
+		<!-- Form -->
+		 {{if auth.user:}}
         {{=form}}
-           {{else:}}
+		{{else:}}
            <a href="{{=URL('default','user')}}">Login</a> to comment
            {{pass}}
-       </div>
-</div>
-</div>
-</body>
-<style>
-pre{
-    white-space:pre-wrap;
-    font-size:24px;
-    overflow:auto;
-    background:none;
-    font-family:Arial;
-}
-</style>
+		<!-- /Form -->
+	</div>
+	<!-- /COMMENTS -->
+</div></div></div>

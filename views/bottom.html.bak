@@ -1,3 +1,8 @@
-{{extend 'layout.html'}}
-<h1>This is the bottom.html template</h1>
-{{=BEAUTIFY(response._vars)}}
+<!-- SCROLL TO TOP -->
+<a href="#" id="toTop"></a>
+<!-- PRELOADER -->
+<div id="preloader">
+    <div class="inner">
+        <span class="loader"></span>
+    </div>
+</div>
